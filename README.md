@@ -13,6 +13,8 @@
 *Executive Overview — page 1 of 3 in the [interactive dashboard](powerbi/customer_churn_dashboard.html).
 Open it in any browser: one self-contained HTML file, no server, CDN, licence or network call.*
 
+**[Open the live dashboard →](https://mythreya1999.github.io/customer-churn-analysis/)**
+
 > **Reviewing this for a role?** Start with the dashboard, then read
 > [`sql/04_retention_insights.sql`](sql/04_retention_insights.sql) for the tiering logic and
 > [`reports/KPI_DEFINITIONS.md`](reports/KPI_DEFINITIONS.md) for the metric contracts. Every figure in
@@ -142,9 +144,8 @@ all churn** — that is the size of the retention list.
 3. **`powerbi/customer_churn_dashboard.html` is a rendered equivalent, not the Power BI file.** It is
    self-contained, works offline, and is what the three screenshots were taken from.
 
-**Live demo.** The root `index.html` redirects to the dashboard, so GitHub Pages
-(Settings → Pages → Deploy from a branch → `main` / root) publishes it at
-`https://<username>.github.io/customer-churn-analysis/` with no build step.
+**Live demo.** The root `index.html` redirects to the dashboard, so GitHub Pages publishes it at
+https://mythreya1999.github.io/customer-churn-analysis/ with no build step.
 
 ---
 
