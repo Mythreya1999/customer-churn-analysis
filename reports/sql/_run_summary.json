@@ -1,0 +1,29 @@
+{
+  "summary": [
+    {
+      "file": "01_data_exploration.sql",
+      "statements": 18,
+      "statements_ok": 18,
+      "errors": 0
+    },
+    {
+      "file": "02_churn_analysis.sql",
+      "statements": 22,
+      "statements_ok": 22,
+      "errors": 0
+    },
+    {
+      "file": "03_customer_segmentation.sql",
+      "statements": 9,
+      "statements_ok": 9,
+      "errors": 0
+    },
+    {
+      "file": "04_retention_insights.sql",
+      "statements": 11,
+      "statements_ok": 11,
+      "errors": 0
+    }
+  ],
+  "gate_failures": []
+}

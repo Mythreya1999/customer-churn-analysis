@@ -1,0 +1,37 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline:
+    name: Rebuild and verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build warehouse and run all SQL + integrity gate
+        run: python build/run_sql.py
+
+      - name: Regenerate BI kit and dashboard payload
+        run: python build/export_bi.py
+
+      - name: Reconcile pandas against SQL views
+        run: python build/final_gate.py
+
+      - name: Verify notebook outputs and numeric claims
+        run: python build/verify_notebook.py

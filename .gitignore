@@ -1,0 +1,32 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+
+# ---------- Jupyter ----------
+*.nbconvert.ipynb
+
+# ---------- Data & build artifacts ----------
+# The raw file IS committed (it is small, public, and the analysis must be reproducible
+# without a network call). Generated artifacts are not.
+db/*.db
+build/dash_payload.json
+build/dash_dom.html
+build/dash_selftest.html
+build/dom_probe.html
+build/dom_probe2.html
+build/height_probe.html
+build/_check.js
+
+# ---------- Power BI ----------
+# A .pbix is a binary container; the repo ships the importable CSVs + DAX instead.
+*.pbix
+~$*
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini

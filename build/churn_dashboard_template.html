@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Churn Analysis &amp; Retention Insights</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#fff; --ink:#15171c; --muted:#5d646f; --line:#e2e5eb;
+    --accent:#c8452a; --accent-soft:#fdece8; --blue:#2e6f9e; --blue-soft:#e9f1f7;
+    --green:#0b6e4f; --amber:#b0741c; --radius:10px;
+    --font: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg); color:var(--ink); font-family:var(--font); font-size:14px; line-height:1.45;
+       padding:clamp(14px,2.2vw,26px); -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1520px; margin:0 auto}
+  header{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:flex-end; justify-content:space-between;
+         padding-bottom:12px; border-bottom:2px solid var(--ink); margin-bottom:14px}
+  h1{margin:0; font-size:clamp(19px,2.3vw,26px); letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:12.5px; margin-top:3px}
+  .prov{font-size:11.5px; color:var(--muted); text-align:right; max-width:440px}
+  .prov b{color:var(--accent)}
+  .pill{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600;
+        padding:4px 9px; border-radius:999px; background:var(--blue-soft); color:var(--blue);
+        border:1px solid #cfe0ec}
+  .pill.bad{background:var(--accent-soft); color:var(--accent); border-color:#f3cfc7}
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px}
+  .tab{font-family:inherit; font-size:13px; font-weight:600; padding:8px 15px; border-radius:8px 8px 0 0;
+       border:1px solid var(--line); border-bottom:none; background:#eceef2; color:var(--muted); cursor:pointer}
+  .tab:hover{color:var(--ink)}
+  .tab.active{background:var(--card); color:var(--ink); box-shadow:0 -2px 0 var(--accent) inset}
+  .tab .n{display:inline-block; font-size:10.5px; opacity:.6; margin-right:5px}
+  .page{display:none}
+  .page.active{display:block}
+  .filters{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:11px 13px;
+           margin-bottom:10px; display:flex; flex-wrap:wrap; gap:9px 13px; align-items:flex-end}
+  .f{display:flex; flex-direction:column; gap:3px; min-width:128px; flex:1 1 128px}
+  .f label{font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:600}
+  .f select{font-family:inherit; font-size:13px; padding:6px 8px; border:1px solid var(--line);
+            border-radius:7px; background:#fff; color:var(--ink); width:100%; cursor:pointer}
+  .reset{font-family:inherit; font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:7px;
+         border:1px solid var(--line); background:#fff; cursor:pointer; white-space:nowrap}
+  .reset:hover{border-color:var(--accent); color:var(--accent)}
+  .flt-note{font-size:11.5px; color:var(--muted); margin:-2px 0 14px}
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:10px; margin-bottom:16px}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px 13px}
+  .kpi .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:600}
+  .kpi .v{font-size:clamp(20px,2.1vw,26px); font-weight:700; letter-spacing:-.02em; margin-top:4px}
+  .kpi .m{font-size:11.5px; color:var(--muted); margin-top:2px}
+  .kpi.hi .v{color:var(--accent)}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(345px,1fr)); gap:13px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:13px 14px 9px}
+  .card.wide{grid-column:1/-1}
+  .card h3{margin:0 0 2px; font-size:13.5px; letter-spacing:-.01em}
+  .card .q{font-size:11.5px; color:var(--muted); margin-bottom:7px}
+  .card .take{font-size:12px; background:var(--bg); border-left:2px solid var(--blue); padding:6px 9px;
+              border-radius:0 5px 5px 0; margin:8px 0 2px}
+  code{font-size:11.5px; background:#eceef2; padding:1px 4px; border-radius:3px}
+  svg{display:block; width:100%; height:auto; overflow:visible}
+  .ax{font-size:11px; fill:var(--muted)}
+  .axl{font-size:11px; fill:var(--ink); font-weight:600}
+  .val{font-size:11px; font-weight:700; fill:var(--ink)}
+  .gl{stroke:var(--line); stroke-width:1}
+  .legend{display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:6px}
+  .legend i{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:4px}
+  .tiers{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-bottom:16px}
+  .tier{border:1px solid var(--line); border-radius:var(--radius); padding:13px 14px; background:var(--card);
+        border-top:3px solid var(--line)}
+  .tier.high{border-top-color:var(--accent)} .tier.med{border-top-color:var(--amber)}
+  .tier.low{border-top-color:var(--green)}
+  .tier .lab{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .tier .rate{font-size:27px; font-weight:700; letter-spacing:-.02em; margin:3px 0 1px}
+  .tier .meta{font-size:12px; color:var(--muted)}
+  .tier .row{display:flex; justify-content:space-between; gap:8px; font-size:12px; margin-top:6px;
+             padding-top:6px; border-top:1px solid var(--line)}
+  table.dt{width:100%; border-collapse:collapse; font-size:12.5px}
+  table.dt th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+              color:var(--muted); border-bottom:1px solid var(--line); padding:6px 8px}
+  table.dt td{padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top}
+  table.dt td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .tag{font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:999px}
+  .tag.hi{background:var(--accent-soft); color:var(--accent)}
+  .tag.md{background:#fdf3e3; color:var(--amber)} .tag.lo{background:#e8f4ee; color:var(--green)}
+  footer{margin-top:20px; padding-top:11px; border-top:1px solid var(--line); font-size:11px; color:var(--muted)}
+  footer b{color:var(--ink)}
+  @media print{body{background:#fff} .tabs{display:none} .page{display:block !important; page-break-after:always}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Customer Churn Analysis &amp; Retention Insights</h1>
+    <div class="sub">7,043 customers · one snapshot · every KPI and chart below recomputes from the customer rows</div>
+  </div>
+  <div class="prov">
+    <span id="verifyPill" class="pill">checking figures…</span>
+    <div style="margin-top:6px">Source: public <b>IBM Telco Customer Churn</b> sample dataset. Not a live extract:
+      one snapshot with <b>no month column</b>, so nothing here is a trend.</div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-page="1"><span class="n">01</span>Executive Overview</button>
+  <button class="tab" data-page="2"><span class="n">02</span>Churn Drivers</button>
+  <button class="tab" data-page="3"><span class="n">03</span>Customer Retention</button>
+</div>
+
+<div class="filters">
+  <div class="f"><label for="f-contract">Contract</label><select id="f-contract"></select></div>
+  <div class="f"><label for="f-tenure">Tenure band</label><select id="f-tenure"></select></div>
+  <div class="f"><label for="f-internet">Internet service</label><select id="f-internet"></select></div>
+  <div class="f"><label for="f-tech">Tech support</label><select id="f-tech"></select></div>
+  <div class="f"><label for="f-payment">Payment method</label><select id="f-payment"></select></div>
+  <div class="f"><label for="f-gender">Gender</label><select id="f-gender"></select></div>
+  <button class="reset" id="reset">Reset filters</button>
+</div>
+<div class="flt-note" id="fltNote"></div>
+
+<section class="page active" id="page-1">
+  <div class="kpis" id="kpis1"></div>
+  <div class="grid">
+    <div class="card wide">
+      <h3>Churn by tenure — the closest thing to a trend this snapshot allows</h3>
+      <div class="q">The dataset has no date column, so a monthly churn trend cannot be drawn. Tenure is the one time-shaped axis available. Bars read left, cumulative share reads right.</div>
+      <div id="c-tenure1"></div>
+      <div class="take" id="t-tenure1"></div>
+    </div>
+    <div class="card">
+      <h3>Churn by contract</h3>
+      <div class="q">Which contract type churns, and how much of total churn does it own?</div>
+      <div id="c-contract1"></div>
+      <div class="take" id="t-contract1"></div>
+    </div>
+    <div class="card">
+      <h3>Churn by customer segment</h3>
+      <div class="q">Household and age-profile segments, ranked by churn rate.</div>
+      <div id="c-segment1"></div>
+      <div class="take" id="t-segment1"></div>
+    </div>
+    <div class="card wide">
+      <h3>Churn by service</h3>
+      <div class="q">Internet product and support / security subscriptions.</div>
+      <div id="c-service1"></div>
+      <div class="take" id="t-service1"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-2">
+  <div class="card wide" style="margin-bottom:13px">
+    <h3>Which attributes actually separate churners?</h3>
+    <div class="q">Cramér's V measures association strength on 0–1 and is comparable across attributes of different cardinality. Ranked so the reader sees the order, not just the charts.</div>
+    <div id="c-drivers"></div>
+    <div class="take" id="t-drivers"></div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>Contract type</h3>
+      <div class="q">Driver 1 — the strongest single split in the data.</div>
+      <div id="c-contract2"></div>
+      <div class="take" id="t-contract2"></div>
+    </div>
+    <div class="card">
+      <h3>Tenure</h3>
+      <div class="q">Driver 2 — churn is front-loaded in the first year.</div>
+      <div id="c-tenure2"></div>
+      <div class="take" id="t-tenure2"></div>
+    </div>
+    <div class="card">
+      <h3>Monthly charges</h3>
+      <div class="q">Driver 3 — univariate only. Confounded with product mix.</div>
+      <div id="c-charge2"></div>
+      <div class="take" id="t-charge2"></div>
+    </div>
+    <div class="card">
+      <h3>Payment method</h3>
+      <div class="q">Driver 4 — mode of payment, not the instrument.</div>
+      <div id="c-payment2"></div>
+      <div class="take" id="t-payment2"></div>
+    </div>
+    <div class="card">
+      <h3>Customer support &amp; security</h3>
+      <div class="q">Driver 5 — support subscription behaves like a retention product.</div>
+      <div id="c-support2"></div>
+      <div class="take" id="t-support2"></div>
+    </div>
+    <div class="card">
+      <h3>Service adoption depth</h3>
+      <div class="q">Driver 6 — the relationship is U-shaped, not monotone. Read the takeaway before quoting it.</div>
+      <div id="c-addons2"></div>
+      <div class="take" id="t-addons2"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-3">
+  <div class="card wide" style="margin-bottom:13px">
+    <h3>How the tiers were derived — not invented</h3>
+    <div class="q">A points scorecard (month-to-month 3 · tenure ≤6m 3 / ≤12m 2 / ≤24m 1 · fiber 2 · no support 2 · e-check 2 · no security 1 · senior 1) produces a score of 0–14. The cut-offs sit where the observed churn rate steps up: score ≥8 is HIGH, 5–7 MEDIUM, ≤4 LOW. The scorecard lives in SQL (<code>sql/01_data_exploration.sql</code>), so the dashboard and the notebook cannot disagree about "high risk".</div>
+    <div class="take" id="t-rule"></div>
+  </div>
+
+  <div class="tiers" id="tiers"></div>
+
+  <div class="card wide" style="margin-bottom:13px">
+    <h3>Priority action list</h3>
+    <div class="q">One row per tier: who owns it, what to do, and how the outcome is measured.</div>
+    <div id="tierTable"></div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Churn rate by tier</h3>
+      <div class="q">The tiers must be monotone, or the scorecard is wrong.</div>
+      <div id="c-tiers"></div>
+      <div class="take" id="t-tiers"></div>
+    </div>
+    <div class="card">
+      <h3>Revenue exposure by tier</h3>
+      <div class="q">Monthly recurring revenue attached to customers who already left.</div>
+      <div id="c-tierrev"></div>
+      <div class="take" id="t-tierrev"></div>
+    </div>
+    <div class="card">
+      <h3>Concentration — how few customers hold the churn</h3>
+      <div class="q">Customers ordered by risk score, then charge, until 80% of churners are captured.</div>
+      <div id="c-pareto"></div>
+      <div class="take" id="t-pareto"></div>
+    </div>
+    <div class="card">
+      <h3>High-risk composition</h3>
+      <div class="q">Who is actually in the HIGH tier — the operational description.</div>
+      <div id="c-composition"></div>
+      <div class="take" id="t-composition"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>Definitions.</b> Churn rate = churned ÷ customers (one row per customer). Retention = 1 − churn.
+  MRR = Σ MonthlyCharges. Revenue at risk = Σ MonthlyCharges over churned customers × 12 — a run-rate
+  exposure, not realised loss. Priority tiers come from the SQL risk scorecard (page 3).
+  <br><b>Verification.</b> On load this page recomputes the headline KPIs from the embedded rows and compares
+  them to the SQL views; the badge top-right reports the result. No value here is pre-aggregated.
+</footer>
+
+</div>
+
+<script>
+const PAYLOAD = /*__PAYLOAD__*/;
+
+const C = {contract:0, tenure:1, monthly:2, total:3, churn:4, gender:5, senior:6, internet:7,
+           tech:8, security:9, payment:10, tenure_band:11, charge_band:12, prime_risk:13,
+           partner:14, dependents:15, risk_points:16, tier:17, n_addons:18};
+const ROWS = PAYLOAD.rows, DIMS = PAYLOAD.dims;
+const fmtInt = n => n.toLocaleString('en-US');
+const fmtMoney = n => '$' + n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtShort = n => n >= 1e6 ? '$' + (n/1e6).toFixed(2) + 'M'
+                  : n >= 1e3 ? '$' + (n/1e3).toFixed(1) + 'k' : '$' + n.toFixed(0);
+const pct = (a,b) => b ? a/b*100 : 0;
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+let currentPage = 1;
+function showPage(n){
+  currentPage = n;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.page === String(n)));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + n));
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showPage(+t.dataset.page)));
+
+const FILTERS = [
+  {id:'f-contract', key:'contract',    col:C.contract,    label:'All contracts'},
+  {id:'f-tenure',   key:'tenure_band', col:C.tenure_band, label:'All tenure bands'},
+  {id:'f-internet', key:'internet',    col:C.internet,    label:'All services'},
+  {id:'f-tech',     key:'tech',        col:C.tech,        label:'All support levels'},
+  {id:'f-payment',  key:'payment',     col:C.payment,     label:'All payment methods'},
+  {id:'f-gender',   key:'gender',      col:C.gender,      label:'All customers'}
+];
+const state = {};
+FILTERS.forEach(f => {
+  const sel = document.getElementById(f.id);
+  sel.innerHTML = '<option value="">' + f.label + '</option>' +
+    DIMS[f.key].map((v,i) => '<option value="' + i + '">' + esc(v) + '</option>').join('');
+  sel.addEventListener('change', () => { state[f.key] = sel.value === '' ? null : +sel.value; render(); });
+});
+document.getElementById('reset').addEventListener('click', () => {
+  FILTERS.forEach(f => { state[f.key] = null; document.getElementById(f.id).value = ''; });
+  render();
+});
+function activeRows(){
+  const preds = FILTERS.filter(f => state[f.key] !== null).map(f => ({col:f.col, val:state[f.key]}));
+  return ROWS.filter(r => preds.every(p => r[p.col] === p.val));
+}
+
+function agg(rows){
+  const n = rows.length;
+  let churn = 0, mrr = 0, mrrChurn = 0, tenSum = 0, tenChurn = 0;
+  for (const r of rows){
+    churn += r[C.churn]; mrr += r[C.monthly]; tenSum += r[C.tenure];
+    if (r[C.churn]) { mrrChurn += r[C.monthly]; tenChurn += r[C.tenure]; }
+  }
+  return {n, churn, rate: pct(churn,n), retention: n ? 100 - pct(churn,n) : 0,
+          mrr, mrrChurn, mrrRate: pct(mrrChurn,mrr),
+          avgTenure: n ? tenSum/n : 0, avgTenureChurn: churn ? tenChurn/churn : 0, arr: mrrChurn*12};
+}
+function groupBy(rows, col, order, labels){
+  const m = new Map();
+  for (const r of rows){
+    const k = r[col];
+    if (!m.has(k)) m.set(k, {n:0, churn:0, mrr:0, mrrChurn:0});
+    const o = m.get(k); o.n++; o.churn += r[C.churn]; o.mrr += r[C.monthly];
+    if (r[C.churn]) o.mrrChurn += r[C.monthly];
+  }
+  const keys = order || [...m.keys()].sort((a,b)=>a-b);
+  return keys.filter(k => m.has(k)).map(k => {
+    const o = m.get(k);
+    return {key:k, label: labels ? labels[k] : String(k), n:o.n, churn:o.churn,
+            rate:pct(o.churn,o.n), mrr:o.mrr, mrrChurn:o.mrrChurn};
+  });
+}
+function cramersV(rows, col){
+  const tab = new Map();
+  for (const r of rows){
+    const key = r[col];
+    if (!tab.has(key)) tab.set(key, [0,0]);
+    tab.get(key)[r[C.churn]]++;
+  }
+  const levels = [...tab.values()];
+  const Rn = levels.length, total = rows.length;
+  if (Rn < 2 || total === 0) return 0;
+  const rowT = levels.map(v => v[0] + v[1]);
+  const colT = [levels.reduce((s,v)=>s+v[0],0), levels.reduce((s,v)=>s+v[1],0)];
+  let chi2 = 0;
+  levels.forEach((v,i) => {
+    for (let j=0;j<2;j++){
+      const e = rowT[i]*colT[j]/total;
+      if (e > 0) chi2 += Math.pow(v[j]-e, 2)/e;
+    }
+  });
+  return Math.sqrt(chi2 / (total * Math.min(Rn-1, 1)));
+}
+
+function barChart(el, data, opts){
+  const o = Object.assign({height:206, pad:{t:14,r:16,b:44,l:44}, color:'#c8452a',
+                           baseline:null, labelEvery:1, maxOverride:null}, opts||{});
+  const W = 640, H = o.height, p = o.pad;
+  const iw = W - p.l - p.r, ih = H - p.t - p.b;
+  const rawMax = o.maxOverride != null ? o.maxOverride
+                 : Math.max(...data.map(d=>d.rate), o.baseline || 0) * 1.22;
+  const max = rawMax > 0 ? rawMax : 1;
+  const bw = iw / Math.max(data.length, 1);
+  let g = '';
+  for (let i=0;i<=3;i++){
+    const y = p.t + ih - ih*i/3;
+    g += '<line class="gl" x1="' + p.l + '" y1="' + y + '" x2="' + (W-p.r) + '" y2="' + y + '"/>';
+    g += '<text class="ax" x="' + (p.l-7) + '" y="' + (y+3.5) + '" text-anchor="end">' + (max*i/3).toFixed(0) + '</text>';
+  }
+  if (o.baseline != null){
+    const y = p.t + ih - ih*(o.baseline/max);
+    g += '<line x1="' + p.l + '" y1="' + y + '" x2="' + (W-p.r) + '" y2="' + y + '" stroke="#15171c" stroke-width="1.2" stroke-dasharray="4 3"/>';
+    g += '<text class="ax" x="' + (W-p.r) + '" y="' + (y-5) + '" text-anchor="end" font-weight="700">overall ' + o.baseline.toFixed(2) + '%</text>';
+  }
+  data.forEach((d,i) => {
+    const h = Math.max(ih*(d.rate/max), d.churn?1.5:0);
+    const x = p.l + bw*i + bw*0.16, w = bw*0.68, y = p.t + ih - h;
+    g += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + o.color + '" rx="2"><title>' + esc(d.label) + ': ' + d.rate.toFixed(2) + '% (' + fmtInt(d.churn) + ' of ' + fmtInt(d.n) + ')</title></rect>';
+    g += '<text class="val" x="' + (x+w/2) + '" y="' + (y-5) + '" text-anchor="middle">' + d.rate.toFixed(1) + '</text>';
+    if (i % o.labelEvery === 0)
+      g += '<text class="axl" x="' + (x+w/2) + '" y="' + (p.t+ih+15) + '" text-anchor="middle">' + esc(d.label) + '</text>';
+    if (d.n !== undefined)
+      g += '<text class="ax" x="' + (x+w/2) + '" y="' + (p.t+ih+29) + '" text-anchor="middle">n=' + fmtInt(d.n) + '</text>';
+  });
+  el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>';
+}
+function hbarChart(el, data, opts){
+  const o = Object.assign({color:'#2e6f9e', accent:null, baseline:null, labelW:170, rowH:28}, opts||{});
+  const rowH = o.rowH, padL = o.labelW, padR = 88, H = data.length*rowH + 30, W = 640;
+  const iw = W - padL - padR;
+  const max = Math.max(...data.map(d=>d.rate), o.baseline||0) * 1.12 || 1;
+  let g = '';
+  data.forEach((d,i) => {
+    const y = i*rowH + 8, w = iw*(d.rate/max);
+    const fill = (o.accent && o.accent(d)) || o.color;
+    g += '<text class="axl" x="' + (padL-10) + '" y="' + (y+13) + '" text-anchor="end">' + esc(d.label) + '</text>';
+    g += '<rect x="' + padL + '" y="' + y + '" width="' + Math.max(w,1.5) + '" height="18" fill="' + fill + '" rx="2"><title>' + esc(d.label) + ': ' + d.rate.toFixed(2) + '% (' + fmtInt(d.churn) + ' of ' + fmtInt(d.n) + ')</title></rect>';
+    g += '<text class="val" x="' + (padL+w+7) + '" y="' + (y+13.5) + '">' + d.rate.toFixed(2) + '%</text>';
+    if (o.right !== false)
+      g += '<text class="ax" x="' + (W-4) + '" y="' + (y+13.5) + '" text-anchor="end">' + fmtInt(d.churn) + ' of ' + fmtInt(d.n) + '</text>';
+  });
+  if (o.baseline != null){
+    const x = padL + iw*(o.baseline/max);
+    g += '<line x1="' + x + '" y1="2" x2="' + x + '" y2="' + (data.length*rowH) + '" stroke="#15171c" stroke-width="1.2" stroke-dasharray="4 3"/>';
+    g += '<text class="ax" x="' + x + '" y="' + (data.length*rowH+18) + '" text-anchor="middle" font-weight="700">selection ' + o.baseline.toFixed(2) + '%</text>';
+  }
+  el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>';
+}
+function curveChart(el, data, opts){
+  const o = Object.assign({showCumulative:true}, opts||{});
+  const W = 640, H = 250, p = {t:18,r:52,b:46,l:46};
+  const iw = W-p.l-p.r, ih = H-p.t-p.b;
+  const maxR = Math.max(...data.map(d=>d.rate), 10) * 1.28;
+  const totalChurn = data.reduce((s,d)=>s+d.churn,0) || 1;
+  let cum = 0;
+  const pts = data.map((d,i) => {
+    cum += d.churn;
+    return {x: p.l + (data.length===1?iw/2:iw*i/(data.length-1)),
+            y: p.t + ih - ih*(d.rate/maxR),
+            cy: p.t + ih - ih*(cum/totalChurn),
+            d, cumPct: cum/totalChurn*100};
+  });
+  let g = '';
+  for (let i=0;i<=4;i++){
+    const y = p.t + ih - ih*i/4;
+    g += '<line class="gl" x1="' + p.l + '" y1="' + y + '" x2="' + (W-p.r) + '" y2="' + y + '"/>';
+    g += '<text class="ax" x="' + (p.l-7) + '" y="' + (y+3.5) + '" text-anchor="end">' + (maxR*i/4).toFixed(0) + '</text>';
+    g += '<text class="ax" x="' + (W-p.r+8) + '" y="' + (y+3.5) + '">' + (i*25) + '</text>';
+  }
+  const area = 'M' + pts[0].x + ',' + (p.t+ih) + ' ' + pts.map(q=>'L'+q.x+','+q.y).join(' ') + ' L' + pts[pts.length-1].x + ',' + (p.t+ih) + ' Z';
+  g += '<path d="' + area + '" fill="#c8452a" opacity="0.10"/>';
+  g += '<polyline points="' + pts.map(q=>q.x+','+q.y).join(' ') + '" fill="none" stroke="#c8452a" stroke-width="2.4"/>';
+  if (o.showCumulative)
+    g += '<polyline points="' + pts.map(q=>q.x+','+q.cy).join(' ') + '" fill="none" stroke="#2e6f9e" stroke-width="1.7" stroke-dasharray="5 3"/>';
+  pts.forEach(q => {
+    g += '<circle cx="' + q.x + '" cy="' + q.y + '" r="3.6" fill="#c8452a"><title>' + esc(q.d.label) + ': ' + q.d.rate.toFixed(2) + '% churn (' + fmtInt(q.d.churn) + ' of ' + fmtInt(q.d.n) + ')</title></circle>';
+    if (o.showCumulative)
+      g += '<rect x="' + (q.x-3.4) + '" y="' + (q.cy-3.4) + '" width="6.8" height="6.8" fill="#2e6f9e"><title>' + esc(q.d.label) + ': ' + q.cumPct.toFixed(1) + '% of all churners by here</title></rect>';
+    g += '<text class="val" x="' + q.x + '" y="' + (q.y-9) + '" text-anchor="middle">' + q.d.rate.toFixed(1) + '</text>';
+    g += '<text class="axl" x="' + q.x + '" y="' + (p.t+ih+17) + '" text-anchor="middle">' + esc(q.d.label) + '</text>';
+    g += '<text class="ax" x="' + q.x + '" y="' + (p.t+ih+31) + '" text-anchor="middle">n=' + fmtInt(q.d.n) + '</text>';
+  });
+  g += '<text class="ax" x="' + (p.l+iw/2) + '" y="' + (H-6) + '" text-anchor="middle">Tenure (months)</text>';
+  g += '<text class="ax" x="' + (W-p.r+8) + '" y="' + (p.t-6) + '">cum %</text>';
+  el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>'
+    + (o.showCumulative
+        ? '<div class="legend"><span><i style="background:#c8452a"></i>churn rate (left axis, %)</span>'
+          + '<span><i style="background:#2e6f9e"></i>cumulative share of all churners (right axis, %)</span></div>'
+        : '');
+}
+function kpiCard(k, v, m, hi){
+  return '<div class="kpi' + (hi?' hi':'') + '"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="m">' + (m||'&nbsp;') + '</div></div>';
+}
+const put = (id, html) => { const e = document.getElementById(id); if (e) e.innerHTML = html; };
+
+function render(){
+  const rows = activeRows(), a = agg(rows), base = agg(ROWS);
+  const preds = FILTERS.filter(f => state[f.key] !== null);
+
+  document.getElementById('fltNote').textContent = preds.length
+    ? 'Showing ' + fmtInt(a.n) + ' of ' + fmtInt(base.n) + ' customers (' + pct(a.n,base.n).toFixed(1) + '% of the base) — ' + preds.map(p=>DIMS[p.key][state[p.key]]).join(' · ')
+    : 'Showing all ' + fmtInt(base.n) + ' customers. Filters apply across all three pages.';
+
+  put('kpis1',
+    kpiCard('Total customers', fmtInt(a.n), preds.length ? pct(a.n,base.n).toFixed(1) + '% of base' : 'full dataset') +
+    kpiCard('Churned customers', fmtInt(a.churn), a.avgTenureChurn.toFixed(1) + ' mo avg tenure', true) +
+    kpiCard('Churn rate', a.rate.toFixed(2) + '%', fmtInt(a.churn) + ' of ' + fmtInt(a.n), true) +
+    kpiCard('Retention rate', a.retention.toFixed(2) + '%', fmtInt(a.n-a.churn) + ' retained') +
+    kpiCard('MRR', fmtShort(a.mrr), fmtMoney(a.mrr)) +
+    kpiCard('MRR at risk', fmtShort(a.mrrChurn), a.mrrRate.toFixed(2) + '% of MRR', true));
+
+  const tb = groupBy(rows, C.tenure_band, [0,1,2,3,4,5,6], DIMS.tenure_band);
+  curveChart(document.getElementById('c-tenure1'), tb);
+  const firstYear = tb.filter(d=>d.key<=1).reduce((s,d)=>s+d.churn,0);
+  put('t-tenure1', a.churn
+    ? '<b>' + pct(firstYear,a.churn).toFixed(2) + '%</b> of churners leave inside 12 months. Churn falls from <b>' + tb[0].rate.toFixed(2) + '%</b> in months 0-6 to <b>' + tb[tb.length-1].rate.toFixed(2) + '%</b> in months 61-72 — the strongest case for front-loading onboarding investment.'
+    : 'No churners in this selection.');
+
+  const ct = groupBy(rows, C.contract, [0,1,2], DIMS.contract);
+  barChart(document.getElementById('c-contract1'), ct, {baseline:a.rate});
+  const m2m = ct.find(d=>d.key===0), two = ct.find(d=>d.key===2);
+  put('t-contract1', (m2m && two)
+    ? 'Month-to-month <b>' + m2m.rate.toFixed(2) + '%</b> vs two-year <b>' + two.rate.toFixed(2) + '%</b>'
+      + (two.rate>0 ? ' — ' + (m2m.rate/two.rate).toFixed(1) + 'x.' : '.')
+      + (a.churn && m2m ? ' Month-to-month carries <b>' + pct(m2m.churn,a.churn).toFixed(2) + '%</b> of churn here.' : '')
+    : 'Not enough data in this selection.');
+
+  const segPartner = groupBy(rows, C.partner, [0,1], ['No partner','Has partner']);
+  const segDep = groupBy(rows, C.dependents, [0,1], ['No dependents','Has dependents']);
+  const segSen = groupBy(rows, C.senior, [0,1], ['Non-senior','Senior']);
+  const segAll = segPartner.concat(segDep, segSen).sort((x,y)=>y.rate-x.rate);
+  hbarChart(document.getElementById('c-segment1'), segAll, {labelW:132, baseline:a.rate, rowH:26,
+    accent: d => d.rate > a.rate ? '#c8452a' : '#2e6f9e'});
+  const worst = segAll[0], best = segAll[segAll.length-1];
+  put('t-segment1', (worst && best)
+    ? '<b>' + esc(worst.label) + '</b> churns highest at <b>' + worst.rate.toFixed(2) + '%</b>; <b>' + esc(best.label) + '</b> lowest at <b>' + best.rate.toFixed(2) + '%</b>. Gender is deliberately excluded — it tests at p ≈ 0.49, i.e. no signal.'
+    : 'Not enough data in this selection.');
+
+  const svc = groupBy(rows, C.internet, [0,1,2], DIMS.internet).map(d=>({...d, label:'Internet: ' + d.label}));
+  const tech = groupBy(rows, C.tech, [0,1,2], DIMS.tech).map(d=>({...d, label:'Support: ' + d.label}));
+  hbarChart(document.getElementById('c-service1'), svc.concat(tech).sort((x,y)=>y.rate-x.rate),
+    {labelW:186, baseline:a.rate, rowH:26, accent: d => d.rate > a.rate ? '#c8452a' : '#2e6f9e'});
+  const fiber = svc.filter(d=>d.label.indexOf('Fiber optic')>-1)[0];
+  const noNet = svc.filter(d=>d.label==='Internet: No')[0];
+  const tY = tech.filter(d=>d.label==='Support: Yes')[0];
+  const tN = tech.filter(d=>d.label==='Support: No')[0];
+  put('t-service1', (fiber && noNet)
+    ? 'Fiber optic <b>' + fiber.rate.toFixed(2) + '%</b> vs no-internet <b>' + noNet.rate.toFixed(2) + '%</b>. Tech-support holders churn at <b>' + (tY?tY.rate.toFixed(2):'–') + '%</b> vs <b>' + (tN?tN.rate.toFixed(2):'–') + '%</b> without.'
+    : 'Not enough data in this selection.');
+
+  const attrDefs = [
+    ['Contract', C.contract], ['Tenure band', C.tenure_band],
+    ['Online security', C.security], ['Tech support', C.tech],
+    ['Internet service', C.internet], ['Payment method', C.payment],
+    ['Charge band', C.charge_band], ['Dependents', C.dependents],
+    ['Senior citizen', C.senior], ['Partner', C.partner], ['Gender', C.gender]
+  ];
+  const drivers = attrDefs.map(([name, col]) => ({label:name, v: cramersV(rows, col)}))
+                          .sort((x,y)=>y.v-x.v);
+  (function(){
+    const el = document.getElementById('c-drivers');
+    if (!el) return;
+    const rowH = 24, padL = 150, padR = 60, W = 640, H = drivers.length*rowH + 16;
+    const iw = W - padL - padR, max = Math.max(...drivers.map(d=>d.v), 0.05) * 1.15;
+    let g = '';
+    drivers.forEach((d,i) => {
+      const y = i*rowH + 6, w = iw*(d.v/max);
+      g += '<text class="axl" x="' + (padL-9) + '" y="' + (y+13) + '" text-anchor="end">' + esc(d.label) + '</text>';
+      g += '<rect x="' + padL + '" y="' + y + '" width="' + Math.max(w,1) + '" height="16" rx="2" fill="' + (d.v>=0.30?'#c8452a':(d.v>=0.15?'#e4a259':'#c9ced8')) + '"><title>' + esc(d.label) + ": Cramer's V " + d.v.toFixed(3) + '</title></rect>';
+      g += '<text class="val" x="' + (padL+w+6) + '" y="' + (y+12.5) + '">' + d.v.toFixed(3) + '</text>';
+    });
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>';
+  })();
+  put('t-drivers', 'Ranked by Cramér\'s V on the current selection: <b>' + esc(drivers[0].label) + '</b> (' + drivers[0].v.toFixed(3) + ') separates churners best, and <b>' + esc(drivers[drivers.length-1].label) + '</b> (' + drivers[drivers.length-1].v.toFixed(3) + ') is indistinguishable from noise. Anything below ~0.10 does not belong in a targeting model.');
+
+  barChart(document.getElementById('c-contract2'), ct, {baseline:a.rate});
+  put('t-contract2', (m2m && two) ? 'Two-year contracts hold churn to <b>' + two.rate.toFixed(2) + '%</b> — the largest structural effect in the data.' : '–');
+
+  curveChart(document.getElementById('c-tenure2'), tb, {showCumulative:false});
+  put('t-tenure2', tb.length ? 'Front-loaded: <b>' + tb[0].rate.toFixed(2) + '%</b> in the first six months, <b>' + tb[tb.length-1].rate.toFixed(2) + '%</b> after five years.' : '–');
+
+  const cb = groupBy(rows, C.charge_band, [0,1,2,3,4], DIMS.charge_band);
+  barChart(document.getElementById('c-charge2'), cb, {baseline:a.rate, color:'#2e6f9e'});
+  let hiB = null, lo = cb.filter(d=>d.key===0)[0];
+  cb.forEach(d => { if (!hiB || d.rate > hiB.rate) hiB = d; });
+  put('t-charge2', (hiB && lo) ? '<b>' + esc(hiB.label) + '</b> churns at <b>' + hiB.rate.toFixed(2) + '%</b> vs <b>' + lo.rate.toFixed(2) + '%</b> under $30 — but fiber costs more and churns more, so this is confounded, not causal.' : '–');
+
+  const pm = groupBy(rows, C.payment, [0,1,2,3], DIMS.payment).sort((x,y)=>y.rate-x.rate);
+  hbarChart(document.getElementById('c-payment2'), pm, {color:'#2e6f9e', rowH:26,
+    accent: d => d.label.indexOf('Electronic') > -1 ? '#c8452a' : '#2e6f9e'});
+  const ec = pm.filter(d=>d.label.indexOf('Electronic')>-1)[0];
+  const autos = pm.filter(d=>d.label.indexOf('automatic')>-1);
+  put('t-payment2', ec ? 'Electronic check <b>' + ec.rate.toFixed(2) + '%</b> vs ' + autos.map(d=>d.rate.toFixed(2)+'%').join(' / ') + ' on automatic billing — the mode of payment, not the instrument.' : '–');
+
+  const sec = groupBy(rows, C.security, [0,1,2], DIMS.security).map(d=>({...d, label:'Security: ' + d.label}));
+  hbarChart(document.getElementById('c-support2'), tech.concat(sec).sort((x,y)=>y.rate-x.rate),
+    {labelW:170, rowH:26, baseline:a.rate, accent: d => /No$/.test(d.label) ? '#c8452a' : '#2e6f9e'});
+  put('t-support2', 'Support and security holders churn roughly a third as often as non-holders — the cheapest observable retention lever after contract term.');
+
+  const addons = groupBy(rows, C.n_addons, null, null).sort((x,y)=>x.key-y.key);
+  barChart(document.getElementById('c-addons2'), addons, {baseline:a.rate, color:'#0b6e4f'});
+  put('t-addons2', addons.length ? (function(){
+    var mx = addons[0]; addons.forEach(function(d){ if (d.rate > mx.rate) mx = d; });
+    return 'Not a straight line: <b>' + addons[0].rate.toFixed(2) + '%</b> with no add-ons, peaking at <b>'
+      + mx.rate.toFixed(2) + '%</b> with ' + mx.key + ', then falling to <b>'
+      + addons[addons.length-1].rate.toFixed(2) + '%</b> at ' + addons[addons.length-1].key + '. '
+      + 'The zero group is a different population (mostly no-internet accounts), which is why depth helps above 2 but the curve is not monotone.';
+  })() : '–');
+
+  const tiers = [0,1,2].map(i => {
+    const t = rows.filter(r=>r[C.tier]===i);
+    const ch = t.reduce((s,r)=>s+r[C.churn],0);
+    const mrrLost = t.filter(r=>r[C.churn]).reduce((s,r)=>s+r[C.monthly],0);
+    return {label: DIMS.tier[i], n:t.length, churn:ch, rate:pct(ch,t.length),
+            pctBase:pct(t.length,a.n), pctChurn:pct(ch,a.churn),
+            multiple: a.rate ? pct(ch,t.length)/a.rate : 0, mrrLost: mrrLost, arr: mrrLost*12, key:i};
+  });
+
+  document.getElementById('tiers').innerHTML = tiers.map((t,i) => ''
+    + '<div class="tier ' + ['high','med','low'][i] + '">'
+    + '<div class="lab">' + ['High priority','Medium priority','Low priority'][i] + '</div>'
+    + '<div class="rate">' + t.rate.toFixed(2) + '%</div>'
+    + '<div class="meta">churn rate · ' + t.multiple.toFixed(2) + 'x the selection rate</div>'
+    + '<div class="row"><span>Customers</span><b>' + fmtInt(t.n) + ' (' + t.pctBase.toFixed(1) + '% of base)</b></div>'
+    + '<div class="row"><span>Churners held</span><b>' + fmtInt(t.churn) + ' (' + t.pctChurn.toFixed(1) + '%)</b></div>'
+    + '<div class="row"><span>MRR already lost</span><b>' + fmtMoney(t.mrrLost) + '</b></div>'
+    + '</div>').join('');
+
+  const actions = [
+    ['Personal retention call within 14 days; offer contract upgrade with tech support bundled', 'Named agent, 30-day SLA', 'Churn rate + 90-day save rate on the HIGH cohort'],
+    ['Automated multi-channel campaign; nudge e-check to automatic payment', 'Marketing automation', 'Conversion of e-check to automatic payment'],
+    ['No outreach; loyalty programme and referral only', 'Self-serve', 'Watch for reclassification into MEDIUM']
+  ];
+  document.getElementById('tierTable').innerHTML = ''
+    + '<table class="dt"><thead><tr><th>Tier</th><th class="num">Customers</th><th class="num">Churn rate</th>'
+    + '<th class="num">MRR lost</th><th class="num">ARR exposure</th><th>Recommended action</th><th>Owner</th><th>Success metric</th></tr></thead><tbody>'
+    + tiers.map((t,i) => '<tr>'
+        + '<td><span class="tag ' + ['hi','md','lo'][i] + '">' + t.label.replace(/^[0-9]\. /,'') + '</span></td>'
+        + '<td class="num">' + fmtInt(t.n) + '</td>'
+        + '<td class="num"><b>' + t.rate.toFixed(2) + '%</b></td>'
+        + '<td class="num">' + fmtMoney(t.mrrLost) + '</td>'
+        + '<td class="num">' + fmtShort(t.arr) + '</td>'
+        + '<td>' + esc(actions[i][0]) + '</td><td>' + esc(actions[i][1]) + '</td><td>' + esc(actions[i][2]) + '</td></tr>').join('')
+    + '</tbody></table>';
+
+  const monotone = tiers[0].rate > tiers[1].rate && tiers[1].rate > tiers[2].rate;
+  put('t-rule', 'On this selection: HIGH <b>' + tiers[0].rate.toFixed(2) + '%</b> (' + fmtInt(tiers[0].n) + ' customers) · MEDIUM <b>'
+    + tiers[1].rate.toFixed(2) + '%</b> · LOW <b>' + tiers[2].rate.toFixed(2) + '%</b>. Monotonicity check <b>'
+    + (monotone ? 'PASSES' : 'FAILS') + '</b> — a tiering that inverts is worse than no tiering.');
+
+  barChart(document.getElementById('c-tiers'),
+    tiers.map(t=>({label:t.label.replace(/^[0-9]\. /,''), n:t.n, churn:t.churn, rate:t.rate})),
+    {baseline:a.rate, color:'#c8452a'});
+  put('t-tiers', 'High-priority customers churn at <b>' + tiers[0].multiple.toFixed(2) + 'x</b> the selection rate; low-priority at <b>' + tiers[2].multiple.toFixed(2) + 'x</b>.');
+
+  (function(){
+    const el = document.getElementById('c-tierrev');
+    const data = tiers.map(t=>({label:t.label.replace(/^[0-9]\. /,''), n:t.n, churn:t.churn, rate:t.mrrLost}));
+    const rowH = 30, padL = 120, padR = 130, W = 640, H = data.length*rowH + 16;
+    const iw = W - padL - padR, max = Math.max(...data.map(d=>d.rate), 1) * 1.05;
+    let g = '';
+    data.forEach((d,i) => {
+      const y = i*rowH + 8, w = iw*(d.rate/max);
+      g += '<text class="axl" x="' + (padL-10) + '" y="' + (y+13) + '" text-anchor="end">' + esc(d.label) + '</text>';
+      g += '<rect x="' + padL + '" y="' + y + '" width="' + Math.max(w,1.5) + '" height="18" rx="2" fill="' + ['#c8452a','#e4a259','#0b6e4f'][i] + '"></rect>';
+      g += '<text class="val" x="' + (padL+w+7) + '" y="' + (y+13.5) + '">' + fmtShort(d.rate) + '</text>';
+    });
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>';
+  })();
+  put('t-tierrev', 'HIGH holds <b>' + fmtMoney(tiers[0].mrrLost) + '</b> of the <b>' + fmtMoney(tiers.reduce((s,t)=>s+t.mrrLost,0)) + '</b> monthly revenue lost in this selection.');
+
+  const ordered = rows.slice().sort(function(x,y){ return (y[C.risk_points]-x[C.risk_points]) || (y[C.monthly]-x[C.monthly]); });
+  const totChurn = ordered.reduce((s,r)=>s+r[C.churn],0);
+  let run = 0, need = 0;
+  for (const r of ordered){ run += r[C.churn]; need++; if (totChurn && run/totChurn >= 0.8) break; }
+  const paretoPct = pct(need, ordered.length);
+  (function(){
+    const el = document.getElementById('c-pareto');
+    const W = 640, H = 190, p = {t:16,r:20,b:34,l:44};
+    const iw = W-p.l-p.r, ih = H-p.t-p.b;
+    const pts = []; let c2 = 0;
+    const step = Math.max(1, Math.floor(ordered.length/120));
+    for (let i=0;i<ordered.length;i+=step){
+      c2 += ordered.slice(i, i+step).reduce((s,r)=>s+r[C.churn],0);
+      pts.push({x: p.l + iw*(i/ordered.length), y: p.t + ih - ih*(totChurn?c2/totChurn:0)});
+    }
+    pts.push({x: p.l+iw, y: p.t + ih - ih*(totChurn?c2/totChurn:0)});
+    let g = '';
+    for (let i=0;i<=4;i++){
+      const y = p.t + ih - ih*i/4;
+      g += '<line class="gl" x1="' + p.l + '" y1="' + y + '" x2="' + (W-p.r) + '" y2="' + y + '"/>';
+      g += '<text class="ax" x="' + (p.l-7) + '" y="' + (y+3.5) + '" text-anchor="end">' + (i*25) + '</text>';
+    }
+    g += '<polyline points="' + pts.map(q=>q.x+','+q.y).join(' ') + '" fill="none" stroke="#2e6f9e" stroke-width="2.2"/>';
+    const x80 = p.l + iw*(paretoPct/100), y80 = p.t + ih - ih*0.8;
+    g += '<line x1="' + x80 + '" y1="' + p.t + '" x2="' + x80 + '" y2="' + (p.t+ih) + '" stroke="#c8452a" stroke-dasharray="4 3"/>';
+    g += '<line x1="' + p.l + '" y1="' + y80 + '" x2="' + (W-p.r) + '" y2="' + y80 + '" stroke="#c8452a" stroke-dasharray="4 3"/>';
+    g += '<text class="val" x="' + (x80+6) + '" y="' + (p.t+12) + '" fill="#c8452a">' + paretoPct.toFixed(1) + '% of base</text>';
+    g += '<text class="ax" x="' + (p.l+iw/2) + '" y="' + (H-6) + '" text-anchor="middle">customers, ordered by risk score (highest first)</text>';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img"><g>' + g + '</g></svg>';
+  })();
+  put('t-pareto', totChurn
+    ? 'Touching the top <b>' + fmtInt(need) + '</b> customers (<b>' + paretoPct.toFixed(1) + '%</b> of this selection) reaches <b>80%</b> of all churn in it — the size of the retention list, not a guess.'
+    : 'No churners in this selection.');
+
+  const highRows = rows.filter(r=>r[C.tier]===0);
+  const comp = groupBy(highRows, C.contract, [0,1,2], DIMS.contract);
+  const compTotal = highRows.length || 1;
+  hbarChart(document.getElementById('c-composition'),
+    comp.map(d=>({label:d.label, n:d.n, churn:d.churn, rate:pct(d.n,compTotal)})),
+    {labelW:140, rowH:28, color:'#c8452a', right:false});
+  put('t-composition', comp.length
+    ? 'The HIGH tier is <b>' + comp.map(d=>pct(d.n,compTotal).toFixed(0) + '% ' + esc(d.label)).join(', ') + '</b> — an operational description, not a slogan.'
+    : '–');
+}
+
+(function(){
+  const a = agg(ROWS), e = PAYLOAD.expected;
+  const checks = [
+    ['customers', a.n, e.customers], ['churners', a.churn, e.churners],
+    ['churn rate', +a.rate.toFixed(2), e.churn_rate],
+    ['MRR total', +a.mrr.toFixed(2), e.mrr_total],
+    ['MRR churned', +a.mrrChurn.toFixed(2), e.mrr_churned]
+  ];
+  const bad = checks.filter(function(c){ return Math.abs(c[1]-c[2]) > 0.011; });
+  const pill = document.getElementById('verifyPill');
+  if (bad.length){
+    pill.className = 'pill bad';
+    pill.textContent = '⚠ ' + bad.length + ' KPI(s) disagree with SQL';
+  } else {
+    pill.textContent = '✓ dashboard KPIs reconcile with the SQL views';
+  }
+})();
+
+FILTERS.forEach(function(f){ state[f.key] = null; });
+render();
+(function(){
+  const m = location.hash.match(/page=([0-9])/);
+  showPage(m ? +m[1] : 1);
+})();
+</script>
+</body>
+</html>

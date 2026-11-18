@@ -1,0 +1,164 @@
+// ============================================================================
+// dax_measures.dax — Customer Churn Analysis
+// Import into the Power BI model built from powerbi/model/*.csv
+// Tables: fact_churn, dim_customer, dim_contract, dim_service, dim_tenure
+// Create one measure table (Modeling > New table > "Measures") and add these.
+// Each measure declares its own display folder and format string.
+// ============================================================================
+
+
+// ---------- folder: 01 Base ----------
+
+Customers =
+COUNTROWS ( fact_churn )
+// format: #,##0
+// Grain check: one row per customer, so COUNTROWS = customer count. Never use
+// DISTINCTCOUNT(CustomerID) here — it is the same number and twice the cost.
+
+Churned Customers =
+CALCULATE ( [Customers], fact_churn[IsChurned] = 1 )
+// format: #,##0
+
+Retained Customers =
+[Customers] - [Churned Customers]
+// format: #,##0
+
+Churn Rate % =
+DIVIDE ( [Churned Customers], [Customers] )
+// format: 0.00%
+// DIVIDE returns BLANK() on an empty denominator, which is what you want when a
+// slicer combination selects nothing. Do not use A/B.
+
+Retention Rate % =
+1 - [Churn Rate %]
+// format: 0.00%
+
+
+// ---------- folder: 02 Revenue ----------
+
+MRR =
+SUM ( fact_churn[MonthlyCharges] )
+// format: $#,##0.00
+// MonthlyCharges is a rate in the snapshot, so summing it is MRR by definition.
+
+MRR Lost =
+CALCULATE ( [MRR], fact_churn[IsChurned] = 1 )
+// format: $#,##0.00
+
+MRR at Risk % =
+DIVIDE ( [MRR Lost], [MRR] )
+// format: 0.00%
+
+ARR Exposure =
+[MRR Lost] * 12
+// format: $#,##0
+// Run-rate exposure, NOT realised loss. Label it that way on the page.
+
+Avg Monthly Charge =
+AVERAGE ( fact_churn[MonthlyCharges] )
+// format: $#,##0.00
+
+Avg Monthly Charge (Churners) =
+CALCULATE ( AVERAGE ( fact_churn[MonthlyCharges] ), fact_churn[IsChurned] = 1 )
+// format: $#,##0.00
+
+Charge Delta =
+[Avg Monthly Charge (Churners)] - CALCULATE ( AVERAGE ( fact_churn[MonthlyCharges] ), fact_churn[IsChurned] = 0 )
+// format: $#,##0.00
+// Expected: 13.18
+
+
+// ---------- folder: 03 Tenure ----------
+
+Avg Tenure (months) =
+AVERAGE ( fact_churn[TenureMonths] )
+// format: 0.0
+
+Avg Tenure (Churners) =
+CALCULATE ( AVERAGE ( fact_churn[TenureMonths] ), fact_churn[IsChurned] = 1 )
+// format: 0.0
+
+Churners Within 12 Months =
+CALCULATE ( [Churned Customers], fact_churn[TenureMonths] <= 12 )
+// format: #,##0
+
+Share of Churn Within 12 Months =
+DIVIDE ( [Churners Within 12 Months], [Churned Customers] )
+// format: 0.00%
+// Expected: 55.48%
+
+
+// ---------- folder: 04 Segments ----------
+
+Prime Risk Customers =
+CALCULATE ( [Customers], fact_churn[IsPrimeRisk] = 1 )
+// format: #,##0
+// Prime risk = Month-to-month AND tenure<=12 AND Fiber optic AND no tech support.
+
+Prime Risk Churn Rate =
+CALCULATE ( [Churn Rate %], fact_churn[IsPrimeRisk] = 1 )
+// format: 0.00%
+// Expected: 71.07%
+
+Prime Risk Churners =
+CALCULATE ( [Churned Customers], fact_churn[IsPrimeRisk] = 1 )
+// format: #,##0
+
+Prime Risk Share of All Churn =
+DIVIDE ( [Prime Risk Churners], [Churned Customers] )
+// format: 0.00%
+// Expected: 31.67%
+
+Month-to-Month Churn Rate =
+CALCULATE ( [Churn Rate %], fact_churn[Contract] = "Month-to-month" )
+// format: 0.00%
+// Expected: 42.71%
+
+Two-Year Churn Rate =
+CALCULATE ( [Churn Rate %], fact_churn[Contract] = "Two year" )
+// format: 0.00%
+// Expected: 2.83%
+
+Electronic Check Churn Rate =
+CALCULATE ( [Churn Rate %], fact_churn[PaymentMethod] = "Electronic check" )
+// format: 0.00%
+// Expected: 45.29%
+
+High Risk Customers =
+CALCULATE ( [Customers], fact_churn[RiskTier] IN { "High", "Critical" } )
+// format: #,##0
+// RiskTier comes from the exported model scores. Expected: 1,389 + 170 = 1,559
+
+
+// ---------- folder: 05 Comparison ----------
+
+Churn Rate (All Customers) =
+CALCULATE ( [Churn Rate %], ALLSELECTED ( fact_churn ) )
+// format: 0.00%
+// ALLSELECTED, not ALL: keeps the report-level slicers, removes only the row context.
+// This is what makes the lift column correct inside a matrix.
+
+Lift vs Base =
+DIVIDE ( [Churn Rate %], [Churn Rate (All Customers)] )
+// format: 0.00"x"
+
+Share of Base % =
+DIVIDE ( [Customers], CALCULATE ( [Customers], ALLSELECTED ( fact_churn ) ) )
+// format: 0.00%
+
+Share of Churners % =
+DIVIDE ( [Churned Customers], CALCULATE ( [Churned Customers], ALLSELECTED ( fact_churn ) ) )
+// format: 0.00%
+
+
+// ---------- folder: 06 Data quality ----------
+
+Customers with Churn Flag =
+COUNTROWS ( FILTER ( fact_churn, NOT ISBLANK ( fact_churn[IsChurned] ) ) )
+// format: #,##0
+// Must equal [Customers] (7,043). If it does not, the export drifted.
+
+Tenure Bands Present =
+DISTINCTCOUNT ( dim_tenure[TenureBand] )
+// format: 0
+// Must equal 7. A missing band reads as a real churn rate of 0%, not as an error.

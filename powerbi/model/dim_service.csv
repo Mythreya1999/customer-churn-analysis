@@ -1,0 +1,323 @@
+ServiceKey,InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,PhoneService,MultipleLines
+1,DSL,No,Yes,No,No,No,No,No,No phone service
+2,DSL,Yes,No,Yes,No,No,No,Yes,No
+3,DSL,Yes,Yes,No,No,No,No,Yes,No
+4,DSL,Yes,No,Yes,Yes,No,No,No,No phone service
+5,Fiber optic,No,No,No,No,No,No,Yes,No
+6,Fiber optic,No,No,Yes,No,Yes,Yes,Yes,Yes
+7,Fiber optic,No,Yes,No,No,Yes,No,Yes,Yes
+8,DSL,Yes,No,No,No,No,No,No,No phone service
+9,Fiber optic,No,No,Yes,Yes,Yes,Yes,Yes,Yes
+10,DSL,Yes,No,No,No,No,No,Yes,No
+11,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Yes,No
+12,Fiber optic,No,Yes,Yes,No,Yes,Yes,Yes,Yes
+13,Fiber optic,Yes,No,Yes,Yes,Yes,Yes,Yes,No
+14,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Yes,Yes
+15,Fiber optic,Yes,No,Yes,No,Yes,Yes,Yes,Yes
+16,DSL,No,No,Yes,Yes,No,No,Yes,No
+17,Fiber optic,No,Yes,Yes,No,No,Yes,Yes,No
+18,DSL,No,No,Yes,No,No,Yes,No,No phone service
+19,DSL,No,Yes,No,Yes,No,No,Yes,Yes
+20,DSL,Yes,Yes,No,Yes,No,No,Yes,No
+21,Fiber optic,No,Yes,No,No,Yes,Yes,Yes,Yes
+22,DSL,Yes,Yes,Yes,Yes,Yes,Yes,Yes,Yes
+23,DSL,No,No,No,No,Yes,Yes,Yes,No
+24,Fiber optic,Yes,Yes,Yes,Yes,No,No,Yes,Yes
+25,Fiber optic,No,No,Yes,No,Yes,Yes,Yes,No
+26,DSL,Yes,Yes,Yes,Yes,No,No,Yes,No
+27,DSL,No,No,No,No,No,No,Yes,No
+28,Fiber optic,Yes,Yes,No,Yes,Yes,No,Yes,Yes
+29,Fiber optic,No,No,Yes,No,No,No,Yes,No
+30,DSL,No,Yes,No,No,No,No,Yes,No
+31,DSL,Yes,Yes,No,No,Yes,No,Yes,Yes
+32,DSL,Yes,Yes,Yes,Yes,Yes,No,Yes,Yes
+33,DSL,Yes,Yes,No,Yes,Yes,No,Yes,Yes
+34,Fiber optic,No,No,No,No,No,Yes,Yes,Yes
+35,Fiber optic,No,No,No,No,Yes,No,Yes,No
+36,DSL,Yes,No,No,Yes,Yes,Yes,Yes,Yes
+37,DSL,Yes,No,Yes,Yes,No,No,Yes,Yes
+38,Fiber optic,Yes,Yes,No,No,Yes,Yes,Yes,No
+39,DSL,Yes,No,No,Yes,Yes,No,Yes,Yes
+40,Fiber optic,No,Yes,No,No,No,No,Yes,Yes
+41,DSL,Yes,Yes,Yes,Yes,No,Yes,Yes,No
+42,Fiber optic,No,No,No,No,Yes,Yes,Yes,Yes
+43,Fiber optic,Yes,No,No,No,Yes,Yes,Yes,Yes
+44,Fiber optic,No,Yes,Yes,Yes,Yes,Yes,Yes,Yes
+45,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Yes,Yes
+46,DSL,Yes,Yes,Yes,No,No,No,No,No phone service
+47,DSL,No,Yes,No,Yes,Yes,Yes,Yes,No
+48,DSL,No,Yes,Yes,Yes,Yes,Yes,Yes,No
+49,Fiber optic,Yes,No,Yes,No,No,No,Yes,No
+50,DSL,No,No,No,Yes,No,No,Yes,No
+51,Fiber optic,Yes,No,Yes,Yes,Yes,Yes,Yes,Yes
+52,DSL,Yes,No,No,Yes,No,Yes,Yes,No
+53,Fiber optic,Yes,Yes,Yes,No,Yes,Yes,Yes,Yes
+54,DSL,No,No,No,No,No,Yes,Yes,No
+55,DSL,Yes,Yes,No,No,Yes,Yes,Yes,No
+56,DSL,Yes,No,No,No,Yes,Yes,No,No phone service
+57,Fiber optic,No,Yes,Yes,Yes,Yes,Yes,Yes,No
+58,DSL,Yes,No,No,No,Yes,No,Yes,No
+59,DSL,No,No,No,No,Yes,No,No,No phone service
+60,Fiber optic,No,Yes,Yes,No,No,No,Yes,No
+61,Fiber optic,No,No,No,Yes,No,No,Yes,No
+62,DSL,Yes,No,Yes,Yes,Yes,Yes,Yes,Yes
+63,Fiber optic,Yes,No,No,No,No,No,Yes,Yes
+64,DSL,Yes,Yes,No,Yes,No,No,Yes,Yes
+65,Fiber optic,No,Yes,Yes,No,Yes,Yes,Yes,No
+66,Fiber optic,No,No,Yes,Yes,Yes,No,Yes,Yes
+67,DSL,No,Yes,Yes,No,Yes,No,No,No phone service
+68,DSL,No,No,No,No,No,No,No,No phone service
+69,Fiber optic,Yes,Yes,No,No,Yes,Yes,Yes,Yes
+70,Fiber optic,Yes,Yes,No,No,Yes,No,Yes,Yes
+71,DSL,Yes,No,Yes,Yes,No,No,Yes,No
+72,Fiber optic,No,Yes,Yes,No,Yes,No,Yes,No
+73,Fiber optic,No,No,No,No,No,No,Yes,Yes
+74,DSL,No,Yes,No,Yes,Yes,Yes,No,No phone service
+75,Fiber optic,Yes,Yes,No,No,Yes,No,Yes,No
+76,Fiber optic,No,Yes,No,Yes,No,No,Yes,Yes
+77,Fiber optic,Yes,No,No,Yes,Yes,No,Yes,No
+78,Fiber optic,No,No,Yes,No,No,No,Yes,Yes
+79,DSL,Yes,Yes,No,No,Yes,Yes,No,No phone service
+80,DSL,Yes,Yes,Yes,No,Yes,Yes,No,No phone service
+81,DSL,No,No,No,No,No,Yes,No,No phone service
+82,Fiber optic,Yes,No,No,No,No,No,Yes,No
+83,DSL,Yes,No,No,Yes,No,Yes,Yes,Yes
+84,Fiber optic,Yes,Yes,No,No,No,No,Yes,Yes
+85,DSL,No,Yes,Yes,No,Yes,No,Yes,No
+86,DSL,No,Yes,Yes,Yes,No,Yes,Yes,No
+87,DSL,No,No,No,Yes,Yes,Yes,Yes,No
+88,DSL,Yes,Yes,Yes,Yes,Yes,Yes,Yes,No
+89,Fiber optic,No,No,No,No,No,Yes,Yes,No
+90,Fiber optic,No,No,No,No,Yes,No,Yes,Yes
+91,DSL,Yes,No,Yes,No,Yes,No,Yes,No
+92,DSL,No,Yes,Yes,Yes,No,Yes,Yes,Yes
+93,DSL,No,Yes,Yes,No,No,Yes,No,No phone service
+94,Fiber optic,Yes,No,Yes,Yes,No,No,Yes,No
+95,DSL,Yes,No,Yes,No,Yes,Yes,Yes,No
+96,DSL,No,No,No,Yes,No,No,No,No phone service
+97,DSL,No,Yes,No,No,No,No,Yes,Yes
+98,Fiber optic,Yes,Yes,No,Yes,Yes,No,Yes,No
+99,Fiber optic,Yes,No,No,Yes,Yes,Yes,Yes,No
+100,Fiber optic,No,Yes,No,Yes,No,No,Yes,No
+101,DSL,Yes,Yes,Yes,Yes,No,Yes,No,No phone service
+102,DSL,Yes,Yes,Yes,Yes,No,No,No,No phone service
+103,DSL,Yes,Yes,Yes,Yes,Yes,No,No,No phone service
+104,DSL,No,Yes,Yes,Yes,Yes,Yes,Yes,Yes
+105,DSL,Yes,No,Yes,Yes,Yes,Yes,Yes,No
+106,DSL,No,No,No,No,Yes,No,Yes,No
+107,Fiber optic,No,No,No,Yes,No,Yes,Yes,Yes
+108,DSL,Yes,Yes,No,Yes,Yes,Yes,Yes,Yes
+109,Fiber optic,Yes,Yes,No,Yes,Yes,Yes,Yes,Yes
+110,Fiber optic,Yes,Yes,No,Yes,No,Yes,Yes,No
+111,Fiber optic,Yes,No,No,No,No,Yes,Yes,No
+112,Fiber optic,No,Yes,No,No,Yes,Yes,Yes,No
+113,DSL,Yes,No,No,Yes,Yes,Yes,Yes,No
+114,Fiber optic,Yes,Yes,Yes,No,No,Yes,Yes,No
+115,DSL,No,Yes,Yes,No,No,No,Yes,No
+116,DSL,No,No,Yes,No,No,Yes,Yes,Yes
+117,Fiber optic,No,Yes,No,No,No,No,Yes,No
+118,Fiber optic,Yes,Yes,Yes,No,No,Yes,Yes,Yes
+119,Fiber optic,Yes,Yes,Yes,No,Yes,No,Yes,No
+120,DSL,No,Yes,No,No,Yes,No,No,No phone service
+121,DSL,No,Yes,Yes,Yes,Yes,Yes,No,No phone service
+122,DSL,Yes,No,Yes,No,No,Yes,No,No phone service
+123,Fiber optic,No,Yes,No,No,No,Yes,Yes,Yes
+124,DSL,Yes,Yes,No,Yes,No,Yes,No,No phone service
+125,Fiber optic,Yes,Yes,No,Yes,Yes,Yes,Yes,No
+126,Fiber optic,No,No,No,Yes,Yes,Yes,Yes,No
+127,Fiber optic,No,Yes,No,Yes,Yes,Yes,Yes,Yes
+128,DSL,Yes,Yes,No,No,No,Yes,Yes,No
+129,DSL,No,No,Yes,Yes,Yes,Yes,No,No phone service
+130,DSL,Yes,No,No,No,No,No,Yes,Yes
+131,DSL,Yes,Yes,Yes,No,No,No,Yes,No
+132,Fiber optic,No,Yes,Yes,Yes,No,No,Yes,No
+133,Fiber optic,No,No,No,No,Yes,Yes,Yes,No
+134,DSL,No,No,Yes,No,Yes,Yes,Yes,Yes
+135,Fiber optic,No,No,Yes,Yes,No,Yes,Yes,No
+136,DSL,No,No,Yes,Yes,Yes,Yes,Yes,No
+137,DSL,Yes,No,Yes,No,Yes,Yes,Yes,Yes
+138,Fiber optic,Yes,No,No,Yes,No,Yes,Yes,No
+139,DSL,Yes,Yes,No,Yes,Yes,Yes,Yes,No
+140,Fiber optic,No,No,No,Yes,Yes,No,Yes,Yes
+141,DSL,Yes,Yes,No,Yes,Yes,Yes,No,No phone service
+142,Fiber optic,No,No,No,Yes,Yes,No,Yes,No
+143,Fiber optic,No,Yes,Yes,No,Yes,No,Yes,Yes
+144,DSL,No,Yes,No,Yes,No,No,Yes,No
+145,DSL,Yes,Yes,Yes,No,No,No,Yes,Yes
+146,DSL,No,No,No,No,Yes,Yes,No,No phone service
+147,Fiber optic,No,Yes,Yes,No,No,No,Yes,Yes
+148,DSL,Yes,No,No,No,Yes,No,No,No phone service
+149,Fiber optic,No,Yes,No,Yes,Yes,Yes,Yes,No
+150,DSL,No,No,Yes,No,No,No,Yes,No
+151,DSL,Yes,No,No,No,No,Yes,Yes,No
+152,DSL,Yes,No,No,Yes,No,No,No,No phone service
+153,Fiber optic,No,Yes,Yes,Yes,No,Yes,Yes,Yes
+154,Fiber optic,No,No,Yes,Yes,No,No,Yes,Yes
+155,DSL,Yes,Yes,Yes,Yes,Yes,Yes,No,No phone service
+156,Fiber optic,No,No,Yes,No,No,Yes,Yes,Yes
+157,DSL,Yes,No,No,Yes,No,No,Yes,No
+158,Fiber optic,Yes,No,Yes,No,Yes,No,Yes,Yes
+159,Fiber optic,No,Yes,Yes,Yes,No,No,Yes,Yes
+160,Fiber optic,No,Yes,No,No,No,Yes,Yes,No
+161,DSL,No,No,No,No,No,No,Yes,Yes
+162,DSL,Yes,No,No,Yes,No,No,Yes,Yes
+163,DSL,No,No,Yes,Yes,Yes,No,No,No phone service
+164,DSL,Yes,No,No,No,No,Yes,Yes,Yes
+165,DSL,Yes,No,Yes,Yes,No,Yes,Yes,No
+166,Fiber optic,No,Yes,Yes,Yes,Yes,No,Yes,No
+167,DSL,No,Yes,No,No,Yes,Yes,Yes,No
+168,DSL,No,No,No,Yes,No,Yes,No,No phone service
+169,DSL,No,No,Yes,No,Yes,Yes,Yes,No
+170,DSL,Yes,Yes,Yes,Yes,Yes,No,Yes,No
+171,Fiber optic,No,Yes,No,No,Yes,No,Yes,No
+172,DSL,Yes,No,Yes,Yes,Yes,No,No,No phone service
+173,DSL,No,Yes,No,No,Yes,No,Yes,No
+174,DSL,No,Yes,No,No,No,Yes,Yes,Yes
+175,Fiber optic,No,Yes,Yes,No,No,Yes,Yes,Yes
+176,Fiber optic,No,No,No,Yes,No,No,Yes,Yes
+177,Fiber optic,Yes,No,Yes,Yes,No,Yes,Yes,No
+178,Fiber optic,Yes,No,Yes,No,Yes,No,Yes,No
+179,Fiber optic,No,Yes,No,Yes,Yes,No,Yes,Yes
+180,Fiber optic,No,Yes,Yes,Yes,Yes,No,Yes,Yes
+181,Fiber optic,No,No,Yes,No,Yes,No,Yes,Yes
+182,DSL,No,No,No,No,No,Yes,Yes,Yes
+183,DSL,Yes,No,No,Yes,Yes,No,No,No phone service
+184,Fiber optic,Yes,Yes,Yes,No,Yes,No,Yes,Yes
+185,DSL,Yes,No,Yes,No,No,Yes,Yes,Yes
+186,DSL,Yes,Yes,No,Yes,Yes,No,Yes,No
+187,DSL,Yes,No,No,No,Yes,Yes,Yes,No
+188,DSL,No,No,Yes,Yes,Yes,No,Yes,No
+189,DSL,No,Yes,Yes,Yes,No,No,No,No phone service
+190,DSL,No,No,Yes,Yes,No,Yes,Yes,No
+191,Fiber optic,Yes,Yes,No,No,No,Yes,Yes,Yes
+192,DSL,Yes,Yes,No,No,Yes,No,Yes,No
+193,DSL,Yes,Yes,Yes,No,Yes,Yes,Yes,Yes
+194,Fiber optic,Yes,Yes,Yes,No,No,No,Yes,No
+195,DSL,No,No,No,Yes,No,Yes,Yes,Yes
+196,DSL,No,No,Yes,Yes,No,Yes,Yes,Yes
+197,Fiber optic,Yes,Yes,No,Yes,No,No,Yes,Yes
+198,Fiber optic,Yes,Yes,Yes,No,No,No,Yes,Yes
+199,Fiber optic,No,No,Yes,No,Yes,No,Yes,No
+200,DSL,Yes,No,No,Yes,Yes,Yes,No,No phone service
+201,Fiber optic,No,No,Yes,Yes,Yes,Yes,Yes,No
+202,DSL,Yes,Yes,Yes,Yes,No,No,Yes,Yes
+203,DSL,No,No,Yes,Yes,Yes,No,Yes,Yes
+204,DSL,Yes,Yes,Yes,No,Yes,Yes,Yes,No
+205,DSL,Yes,Yes,No,No,No,Yes,Yes,Yes
+206,DSL,No,No,Yes,No,No,No,No,No phone service
+207,DSL,No,Yes,No,No,Yes,Yes,No,No phone service
+208,DSL,Yes,No,No,Yes,Yes,No,Yes,No
+209,DSL,Yes,Yes,No,Yes,No,Yes,Yes,Yes
+210,DSL,No,No,Yes,No,Yes,No,Yes,Yes
+211,Fiber optic,Yes,Yes,No,No,No,No,Yes,No
+212,DSL,No,Yes,Yes,No,Yes,Yes,Yes,Yes
+213,Fiber optic,No,No,Yes,Yes,No,No,Yes,No
+214,Fiber optic,Yes,No,No,Yes,No,No,Yes,Yes
+215,Fiber optic,Yes,No,No,No,Yes,No,Yes,Yes
+216,DSL,No,No,Yes,No,Yes,Yes,No,No phone service
+217,Fiber optic,Yes,Yes,Yes,Yes,No,Yes,Yes,No
+218,Fiber optic,No,No,Yes,Yes,Yes,No,Yes,No
+219,Fiber optic,Yes,No,Yes,No,No,Yes,Yes,No
+220,DSL,No,Yes,No,No,No,Yes,No,No phone service
+221,Fiber optic,Yes,Yes,Yes,Yes,No,Yes,Yes,Yes
+222,DSL,Yes,Yes,No,Yes,No,No,No,No phone service
+223,DSL,Yes,Yes,No,No,Yes,Yes,Yes,Yes
+224,DSL,Yes,No,Yes,Yes,Yes,Yes,No,No phone service
+225,DSL,Yes,Yes,Yes,No,No,Yes,Yes,Yes
+226,DSL,Yes,No,Yes,Yes,Yes,No,Yes,No
+227,DSL,No,Yes,No,Yes,No,Yes,Yes,No
+228,Fiber optic,No,No,No,Yes,Yes,Yes,Yes,Yes
+229,DSL,No,Yes,No,Yes,Yes,No,Yes,No
+230,Fiber optic,Yes,No,No,Yes,Yes,Yes,Yes,Yes
+231,Fiber optic,No,No,Yes,No,No,Yes,Yes,No
+232,Fiber optic,Yes,No,Yes,No,No,Yes,Yes,Yes
+233,DSL,No,No,No,Yes,Yes,No,No,No phone service
+234,Fiber optic,Yes,No,Yes,Yes,Yes,No,Yes,Yes
+235,Fiber optic,Yes,Yes,Yes,Yes,Yes,Yes,Yes,No
+236,Fiber optic,Yes,No,Yes,Yes,No,No,Yes,Yes
+237,Fiber optic,Yes,No,No,No,Yes,Yes,Yes,No
+238,Fiber optic,Yes,Yes,Yes,No,Yes,Yes,Yes,No
+239,DSL,Yes,Yes,Yes,Yes,No,Yes,Yes,Yes
+240,DSL,Yes,No,Yes,Yes,No,Yes,Yes,Yes
+241,DSL,No,Yes,Yes,Yes,Yes,No,Yes,No
+242,DSL,No,No,Yes,No,No,Yes,Yes,No
+243,DSL,No,No,No,Yes,Yes,Yes,Yes,Yes
+244,DSL,Yes,No,Yes,Yes,Yes,No,Yes,Yes
+245,DSL,No,No,Yes,Yes,No,Yes,No,No phone service
+246,DSL,No,No,Yes,Yes,Yes,Yes,Yes,Yes
+247,Fiber optic,Yes,No,No,No,Yes,No,Yes,No
+248,Fiber optic,No,Yes,No,Yes,No,Yes,Yes,Yes
+249,Fiber optic,Yes,No,Yes,Yes,No,Yes,Yes,Yes
+250,DSL,No,Yes,Yes,No,Yes,No,Yes,Yes
+251,DSL,No,No,No,Yes,No,No,Yes,Yes
+252,DSL,Yes,No,No,No,Yes,No,Yes,Yes
+253,DSL,No,No,No,No,Yes,No,Yes,Yes
+254,DSL,No,Yes,Yes,Yes,Yes,No,Yes,Yes
+255,DSL,No,No,Yes,No,Yes,No,Yes,No
+256,DSL,Yes,No,Yes,No,Yes,Yes,No,No phone service
+257,DSL,No,Yes,No,No,No,Yes,Yes,No
+258,DSL,No,No,No,No,Yes,Yes,Yes,Yes
+259,DSL,No,No,No,Yes,Yes,Yes,No,No phone service
+260,DSL,Yes,No,Yes,No,No,Yes,Yes,No
+261,Fiber optic,Yes,No,No,Yes,No,No,Yes,No
+262,Fiber optic,Yes,Yes,Yes,Yes,Yes,No,Yes,No
+263,DSL,Yes,Yes,No,Yes,Yes,No,No,No phone service
+264,DSL,Yes,Yes,No,No,No,No,Yes,Yes
+265,DSL,No,Yes,No,No,Yes,No,Yes,Yes
+266,DSL,Yes,Yes,Yes,No,No,Yes,Yes,No
+267,DSL,Yes,No,No,Yes,No,Yes,No,No phone service
+268,DSL,No,No,No,Yes,Yes,No,Yes,Yes
+269,Fiber optic,Yes,No,Yes,No,Yes,Yes,Yes,No
+270,DSL,Yes,No,Yes,No,Yes,No,Yes,Yes
+271,Fiber optic,Yes,No,No,Yes,Yes,No,Yes,Yes
+272,DSL,No,No,Yes,Yes,No,No,No,No phone service
+273,DSL,Yes,Yes,No,Yes,No,Yes,Yes,No
+274,DSL,Yes,Yes,No,No,No,Yes,No,No phone service
+275,DSL,No,Yes,No,Yes,Yes,Yes,Yes,Yes
+276,Fiber optic,No,Yes,No,Yes,Yes,No,Yes,No
+277,DSL,No,Yes,Yes,No,Yes,Yes,Yes,No
+278,DSL,No,Yes,Yes,Yes,No,No,Yes,No
+279,DSL,No,No,No,Yes,Yes,No,Yes,No
+280,DSL,No,Yes,Yes,No,No,Yes,Yes,Yes
+281,DSL,No,Yes,No,Yes,No,No,No,No phone service
+282,DSL,No,Yes,Yes,No,Yes,Yes,No,No phone service
+283,Fiber optic,No,Yes,No,Yes,No,Yes,Yes,No
+284,DSL,No,No,Yes,Yes,No,No,Yes,Yes
+285,Fiber optic,Yes,No,Yes,No,No,No,Yes,Yes
+286,DSL,Yes,No,Yes,No,No,No,No,No phone service
+287,DSL,No,Yes,No,Yes,No,Yes,Yes,Yes
+288,DSL,No,Yes,No,Yes,Yes,No,Yes,Yes
+289,DSL,No,No,Yes,No,No,No,Yes,Yes
+290,DSL,No,Yes,Yes,Yes,Yes,No,No,No phone service
+291,DSL,Yes,Yes,Yes,No,Yes,No,Yes,No
+292,DSL,No,Yes,Yes,No,No,No,No,No phone service
+293,Fiber optic,Yes,Yes,Yes,Yes,Yes,No,Yes,Yes
+294,Fiber optic,No,No,Yes,Yes,No,Yes,Yes,Yes
+295,Fiber optic,Yes,Yes,No,No,No,Yes,Yes,No
+296,DSL,No,Yes,Yes,Yes,No,No,Yes,Yes
+297,DSL,No,No,No,Yes,No,Yes,Yes,No
+298,DSL,Yes,Yes,No,No,No,No,No,No phone service
+299,Fiber optic,Yes,No,No,No,No,Yes,Yes,Yes
+300,DSL,Yes,No,No,No,Yes,Yes,Yes,Yes
+301,DSL,Yes,Yes,Yes,No,Yes,No,Yes,Yes
+302,Fiber optic,No,Yes,Yes,Yes,No,Yes,Yes,No
+303,DSL,Yes,No,Yes,Yes,No,Yes,No,No phone service
+304,DSL,Yes,No,No,No,No,Yes,No,No phone service
+305,Fiber optic,Yes,Yes,No,Yes,No,Yes,Yes,Yes
+306,Fiber optic,Yes,No,No,Yes,No,Yes,Yes,Yes
+307,DSL,Yes,Yes,Yes,No,No,Yes,No,No phone service
+308,Fiber optic,Yes,Yes,No,Yes,No,No,Yes,No
+309,DSL,No,Yes,Yes,No,No,Yes,Yes,No
+310,DSL,Yes,No,Yes,No,No,No,Yes,Yes
+311,DSL,No,Yes,No,Yes,No,Yes,No,No phone service
+312,DSL,Yes,Yes,Yes,No,Yes,No,No,No phone service
+313,Fiber optic,No,No,No,Yes,No,Yes,Yes,No
+314,DSL,No,No,Yes,No,Yes,No,No,No phone service
+315,DSL,No,Yes,Yes,Yes,No,Yes,No,No phone service
+316,DSL,Yes,Yes,No,No,Yes,No,No,No phone service
+317,DSL,No,Yes,Yes,No,No,No,Yes,Yes
+318,DSL,No,Yes,No,No,Yes,Yes,Yes,Yes
+319,Fiber optic,Yes,Yes,Yes,Yes,No,No,Yes,No
+320,DSL,No,Yes,No,Yes,Yes,No,No,No phone service
+321,Fiber optic,Yes,No,Yes,Yes,Yes,No,Yes,No
+322,DSL,Yes,No,Yes,No,Yes,No,No,No phone service

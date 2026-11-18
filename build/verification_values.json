@@ -1,0 +1,14 @@
+{
+  "customers": 7043,
+  "churners": 1869,
+  "churn_rate": 26.54,
+  "mrr_total": 456116.6,
+  "mrr_churned": 139130.85,
+  "arr_exposure": 1669570.2,
+  "tier_high": 2684,
+  "tier_medium": 1480,
+  "tier_low": 2879,
+  "tier_high_rate": 53.43,
+  "tier_medium_rate": 19.8,
+  "tier_low_rate": 4.93
+}
